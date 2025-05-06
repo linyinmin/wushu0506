@@ -1123,13 +1123,13 @@ function updateVideoInfo(filename) {
 
 // 影片列表
 const videoFiles = [
-    'V1.mp4',
-    'V2.mp4',
-    'V3.mp4',
-    'V4.mp4',
-    'V5.mp4',
-    'V6.mp4',
-    'V7.mp4'
+    './Video/V1.mp4',
+    './Video/V2.mp4',
+    './Video/V3.mp4',
+    './Video/V4.mp4',
+    './Video/V5.mp4',
+    './Video/V6.mp4',
+    './Video/V7.mp4'
 ];
 
 // 修改影片載入函數
@@ -1139,10 +1139,10 @@ async function loadVideo(videoPath) {
         const video = document.getElementById('video');
         
         // 直接設置影片來源
-        video.src = `Video/${videoPath}`;
+        video.src = videoPath;
         
         // 更新影片資訊
-        updateVideoInfo(videoPath);
+        updateVideoInfo(videoPath.split('/').pop());
         
         video.onloadedmetadata = () => {
             console.log('影片元數據已載入');
