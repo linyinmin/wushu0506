@@ -1,0 +1,45 @@
+// TISS Design System - Color Variables
+
+// Primary Colors
+$tiss-blue: #77CBF2;    // 朝活藍
+$tiss-green: #00A886;   // 植蘊綠
+$tiss-dark-blue: #004D9F; // 躍動藍
+
+// Secondary Colors
+$tiss-yellow: #FACB00;  // 星曜黃
+$tiss-orange: #F29027;  // 日橙橘
+$tiss-cyan: #00B1AD;    // 沁湖藍
+
+// Neutral Colors
+$tiss-black: #000000;
+$tiss-white: #FFFFFF;
+$tiss-gray-100: #F5F5F5;
+$tiss-gray-200: #EEEEEE;
+$tiss-gray-300: #E0E0E0;
+$tiss-gray-400: #BDBDBD;
+$tiss-gray-500: #9E9E9E;
+$tiss-gray-600: #757575;
+$tiss-gray-700: #616161;
+$tiss-gray-800: #424242;
+$tiss-gray-900: #212121;
+
+// Typography
+$font-family-base: 'Noto Sans TC', sans-serif;
+$font-size-base: 16px;
+$line-height-base: 1.5;
+
+// Spacing
+$spacing-unit: 8px;
+$spacing-xs: $spacing-unit;
+$spacing-sm: $spacing-unit * 2;
+$spacing-md: $spacing-unit * 3;
+$spacing-lg: $spacing-unit * 4;
+$spacing-xl: $spacing-unit * 5;
+
+// Border Radius
+$border-radius-sm: 4px;
+$border-radius-md: 8px;
+$border-radius-lg: 16px;
+
+// Transitions
+$transition-base: all 0.3s ease-in-out; 

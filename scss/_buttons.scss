@@ -1,0 +1,130 @@
+@import 'variables';
+
+// Button Base Styles
+.tiss-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: $spacing-sm $spacing-md;
+  border-radius: $border-radius-md;
+  font-family: $font-family-base;
+  font-size: $font-size-base;
+  font-weight: 500;
+  line-height: $line-height-base;
+  text-align: center;
+  text-decoration: none;
+  cursor: pointer;
+  transition: $transition-base;
+  border: none;
+  outline: none;
+
+  &:hover {
+    transform: translateY(-1px);
+  }
+
+  &:active {
+    transform: translateY(0);
+  }
+
+  &:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+    pointer-events: none;
+  }
+}
+
+// Button Variants
+.tiss-btn-primary {
+  background-color: $tiss-blue;
+  color: $tiss-white;
+
+  &:hover {
+    background-color: darken($tiss-blue, 10%);
+  }
+}
+
+.tiss-btn-secondary {
+  background-color: $tiss-green;
+  color: $tiss-white;
+
+  &:hover {
+    background-color: darken($tiss-green, 10%);
+  }
+}
+
+.tiss-btn-accent {
+  background-color: $tiss-dark-blue;
+  color: $tiss-white;
+
+  &:hover {
+    background-color: darken($tiss-dark-blue, 10%);
+  }
+}
+
+// Button Sizes
+.tiss-btn-sm {
+  padding: $spacing-xs $spacing-sm;
+  font-size: 14px;
+}
+
+.tiss-btn-lg {
+  padding: $spacing-md $spacing-lg;
+  font-size: 18px;
+}
+
+// Outline Buttons
+.tiss-btn-outline {
+  background-color: transparent;
+  border: 2px solid currentColor;
+
+  &.tiss-btn-primary {
+    color: $tiss-blue;
+    border-color: $tiss-blue;
+
+    &:hover {
+      background-color: $tiss-blue;
+      color: $tiss-white;
+    }
+  }
+
+  &.tiss-btn-secondary {
+    color: $tiss-green;
+    border-color: $tiss-green;
+
+    &:hover {
+      background-color: $tiss-green;
+      color: $tiss-white;
+    }
+  }
+
+  &.tiss-btn-accent {
+    color: $tiss-dark-blue;
+    border-color: $tiss-dark-blue;
+
+    &:hover {
+      background-color: $tiss-dark-blue;
+      color: $tiss-white;
+    }
+  }
+}
+
+// Icon Buttons
+.tiss-btn-icon {
+  padding: $spacing-sm;
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  &.tiss-btn-lg {
+    width: 48px;
+    height: 48px;
+  }
+
+  &.tiss-btn-sm {
+    width: 32px;
+    height: 32px;
+  }
+} 

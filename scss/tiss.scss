@@ -1,0 +1,71 @@
+// TISS Design System
+// 導入所有變數和元件
+
+// Variables
+@import 'variables';
+
+// Base Styles
+@import 'base';
+
+// Components
+@import 'buttons';
+@import 'forms';
+@import 'modal';
+
+// Reset & Base Styles
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: $font-family-base;
+  font-size: $font-size-base;
+  line-height: $line-height-base;
+  color: $tiss-gray-900;
+  background-color: $tiss-white;
+}
+
+// Utility Classes
+.tiss-text-primary { color: $tiss-blue; }
+.tiss-text-secondary { color: $tiss-green; }
+.tiss-text-accent { color: $tiss-dark-blue; }
+
+.tiss-bg-primary { background-color: $tiss-blue; }
+.tiss-bg-secondary { background-color: $tiss-green; }
+.tiss-bg-accent { background-color: $tiss-dark-blue; }
+
+.tiss-mt-1 { margin-top: $spacing-xs; }
+.tiss-mt-2 { margin-top: $spacing-sm; }
+.tiss-mt-3 { margin-top: $spacing-md; }
+.tiss-mt-4 { margin-top: $spacing-lg; }
+.tiss-mt-5 { margin-top: $spacing-xl; }
+
+.tiss-mb-1 { margin-bottom: $spacing-xs; }
+.tiss-mb-2 { margin-bottom: $spacing-sm; }
+.tiss-mb-3 { margin-bottom: $spacing-md; }
+.tiss-mb-4 { margin-bottom: $spacing-lg; }
+.tiss-mb-5 { margin-bottom: $spacing-xl; }
+
+.tiss-p-1 { padding: $spacing-xs; }
+.tiss-p-2 { padding: $spacing-sm; }
+.tiss-p-3 { padding: $spacing-md; }
+.tiss-p-4 { padding: $spacing-lg; }
+.tiss-p-5 { padding: $spacing-xl; }
+
+.tiss-rounded-sm { border-radius: $border-radius-sm; }
+.tiss-rounded-md { border-radius: $border-radius-md; }
+.tiss-rounded-lg { border-radius: $border-radius-lg; }
+
+.tiss-shadow-sm {
+  box-shadow: 0 1px 2px rgba($tiss-black, 0.05);
+}
+
+.tiss-shadow-md {
+  box-shadow: 0 4px 6px rgba($tiss-black, 0.1);
+}
+
+.tiss-shadow-lg {
+  box-shadow: 0 10px 15px rgba($tiss-black, 0.1);
+} 

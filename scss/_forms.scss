@@ -1,0 +1,134 @@
+@import 'variables';
+
+// Form Group
+.tiss-form-group {
+  margin-bottom: $spacing-md;
+}
+
+// Labels
+.tiss-label {
+  display: block;
+  margin-bottom: $spacing-xs;
+  font-weight: 500;
+  color: $tiss-gray-800;
+}
+
+// Inputs
+.tiss-input {
+  width: 100%;
+  padding: $spacing-sm;
+  border: 1px solid $tiss-gray-300;
+  border-radius: $border-radius-md;
+  font-family: $font-family-base;
+  font-size: $font-size-base;
+  line-height: $line-height-base;
+  transition: $transition-base;
+
+  &:focus {
+    outline: none;
+    border-color: $tiss-blue;
+    box-shadow: 0 0 0 2px rgba($tiss-blue, 0.2);
+  }
+
+  &:disabled {
+    background-color: $tiss-gray-100;
+    cursor: not-allowed;
+  }
+
+  &.tiss-input-error {
+    border-color: #dc3545;
+    
+    &:focus {
+      box-shadow: 0 0 0 2px rgba(#dc3545, 0.2);
+    }
+  }
+}
+
+// Textarea
+.tiss-textarea {
+  @extend .tiss-input;
+  min-height: 100px;
+  resize: vertical;
+}
+
+// Select
+.tiss-select {
+  @extend .tiss-input;
+  appearance: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' fill='%23666' viewBox='0 0 16 16'%3E%3Cpath d='M8 11L3 6h10l-5 5z'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right $spacing-sm center;
+  padding-right: $spacing-xl;
+}
+
+// Checkbox and Radio
+.tiss-checkbox,
+.tiss-radio {
+  display: none;
+
+  & + label {
+    position: relative;
+    padding-left: $spacing-xl;
+    cursor: pointer;
+    user-select: none;
+
+    &:before {
+      content: '';
+      position: absolute;
+      left: 0;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 18px;
+      height: 18px;
+      border: 1px solid $tiss-gray-300;
+      border-radius: $border-radius-sm;
+      background-color: $tiss-white;
+      transition: $transition-base;
+    }
+  }
+
+  &:checked + label:before {
+    border-color: $tiss-blue;
+    background-color: $tiss-blue;
+  }
+}
+
+.tiss-radio + label:before {
+  border-radius: 50%;
+}
+
+// Form Validation
+.tiss-error-message {
+  color: #dc3545;
+  font-size: 14px;
+  margin-top: $spacing-xs;
+}
+
+.tiss-success-message {
+  color: #28a745;
+  font-size: 14px;
+  margin-top: $spacing-xs;
+}
+
+// Form Grid
+.tiss-form-row {
+  display: flex;
+  margin-left: -$spacing-sm;
+  margin-right: -$spacing-sm;
+}
+
+.tiss-form-col {
+  flex: 1;
+  padding-left: $spacing-sm;
+  padding-right: $spacing-sm;
+}
+
+// Search Input
+.tiss-search-input {
+  @extend .tiss-input;
+  padding-left: $spacing-xl;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' fill='%23999' viewBox='0 0 16 16'%3E%3Cpath d='M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: left $spacing-sm center;
+  background-size: 16px;
+} 

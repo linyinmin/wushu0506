@@ -1,0 +1,291 @@
+@import 'variables';
+
+// Typography
+h1, .tiss-h1 {
+  font-size: 2.5rem;
+  font-weight: 700;
+  margin-bottom: $spacing-lg;
+  color: $tiss-gray-900;
+}
+
+h2, .tiss-h2 {
+  font-size: 2rem;
+  font-weight: 600;
+  margin-bottom: $spacing-md;
+  color: $tiss-gray-800;
+}
+
+h3, .tiss-h3 {
+  font-size: 1.75rem;
+  font-weight: 600;
+  margin-bottom: $spacing-sm;
+  color: $tiss-gray-800;
+}
+
+h4, .tiss-h4 {
+  font-size: 1.5rem;
+  font-weight: 500;
+  margin-bottom: $spacing-sm;
+  color: $tiss-gray-700;
+}
+
+h5, .tiss-h5 {
+  font-size: 1.25rem;
+  font-weight: 500;
+  margin-bottom: $spacing-xs;
+  color: $tiss-gray-700;
+}
+
+h6, .tiss-h6 {
+  font-size: 1rem;
+  font-weight: 500;
+  margin-bottom: $spacing-xs;
+  color: $tiss-gray-700;
+}
+
+p {
+  margin-bottom: $spacing-md;
+  line-height: $line-height-base;
+}
+
+// Links
+a {
+  color: $tiss-blue;
+  text-decoration: none;
+  transition: $transition-base;
+
+  &:hover {
+    color: darken($tiss-blue, 10%);
+    text-decoration: underline;
+  }
+}
+
+// Lists
+ul, ol {
+  margin-bottom: $spacing-md;
+  padding-left: $spacing-lg;
+}
+
+li {
+  margin-bottom: $spacing-xs;
+}
+
+// Tables
+.tiss-table {
+  width: 100%;
+  margin-bottom: $spacing-lg;
+  border-collapse: collapse;
+
+  th, td {
+    padding: $spacing-sm;
+    border: 1px solid $tiss-gray-300;
+  }
+
+  th {
+    background-color: $tiss-gray-100;
+    font-weight: 600;
+    text-align: left;
+  }
+
+  tr:nth-child(even) {
+    background-color: $tiss-gray-100;
+  }
+
+  &.tiss-table-striped {
+    tr:nth-child(odd) {
+      background-color: $tiss-white;
+    }
+  }
+
+  &.tiss-table-bordered {
+    th, td {
+      border: 1px solid $tiss-gray-300;
+    }
+  }
+}
+
+// Grid System
+.tiss-container {
+  width: 100%;
+  padding-right: $spacing-md;
+  padding-left: $spacing-md;
+  margin-right: auto;
+  margin-left: auto;
+}
+
+.tiss-row {
+  display: flex;
+  flex-wrap: wrap;
+  margin-right: -$spacing-md;
+  margin-left: -$spacing-md;
+}
+
+.tiss-col {
+  position: relative;
+  width: 100%;
+  padding-right: $spacing-md;
+  padding-left: $spacing-md;
+}
+
+// Responsive Grid
+@for $i from 1 through 12 {
+  .tiss-col-#{$i} {
+    flex: 0 0 percentage($i / 12);
+    max-width: percentage($i / 12);
+  }
+}
+
+// Responsive Breakpoints
+@media (min-width: 576px) {
+  .tiss-container {
+    max-width: 540px;
+  }
+}
+
+@media (min-width: 768px) {
+  .tiss-container {
+    max-width: 720px;
+  }
+}
+
+@media (min-width: 992px) {
+  .tiss-container {
+    max-width: 960px;
+  }
+}
+
+@media (min-width: 1200px) {
+  .tiss-container {
+    max-width: 1140px;
+  }
+}
+
+// Cards
+.tiss-card {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  word-wrap: break-word;
+  background-color: $tiss-white;
+  background-clip: border-box;
+  border: 1px solid $tiss-gray-300;
+  border-radius: $border-radius-md;
+  margin-bottom: $spacing-md;
+}
+
+.tiss-card-header {
+  padding: $spacing-md;
+  margin-bottom: 0;
+  background-color: $tiss-gray-100;
+  border-bottom: 1px solid $tiss-gray-300;
+  border-top-left-radius: calc($border-radius-md - 1px);
+  border-top-right-radius: calc($border-radius-md - 1px);
+}
+
+.tiss-card-body {
+  flex: 1 1 auto;
+  padding: $spacing-md;
+}
+
+.tiss-card-footer {
+  padding: $spacing-md;
+  background-color: $tiss-gray-100;
+  border-top: 1px solid $tiss-gray-300;
+  border-bottom-left-radius: calc($border-radius-md - 1px);
+  border-bottom-right-radius: calc($border-radius-md - 1px);
+}
+
+// Alerts
+.tiss-alert {
+  position: relative;
+  padding: $spacing-md;
+  margin-bottom: $spacing-md;
+  border: 1px solid transparent;
+  border-radius: $border-radius-md;
+
+  &.tiss-alert-primary {
+    color: darken($tiss-blue, 20%);
+    background-color: lighten($tiss-blue, 35%);
+    border-color: lighten($tiss-blue, 30%);
+  }
+
+  &.tiss-alert-secondary {
+    color: darken($tiss-green, 20%);
+    background-color: lighten($tiss-green, 35%);
+    border-color: lighten($tiss-green, 30%);
+  }
+
+  &.tiss-alert-accent {
+    color: darken($tiss-dark-blue, 20%);
+    background-color: lighten($tiss-dark-blue, 35%);
+    border-color: lighten($tiss-dark-blue, 30%);
+  }
+
+  &.tiss-alert-success {
+    color: #155724;
+    background-color: #d4edda;
+    border-color: #c3e6cb;
+  }
+
+  &.tiss-alert-danger {
+    color: #721c24;
+    background-color: #f8d7da;
+    border-color: #f5c6cb;
+  }
+
+  &.tiss-alert-warning {
+    color: #856404;
+    background-color: #fff3cd;
+    border-color: #ffeeba;
+  }
+
+  &.tiss-alert-info {
+    color: #0c5460;
+    background-color: #d1ecf1;
+    border-color: #bee5eb;
+  }
+}
+
+// Badges
+.tiss-badge {
+  display: inline-block;
+  padding: 0.25em 0.4em;
+  font-size: 75%;
+  font-weight: 700;
+  line-height: 1;
+  text-align: center;
+  white-space: nowrap;
+  vertical-align: baseline;
+  border-radius: $border-radius-sm;
+  color: $tiss-white;
+
+  &.tiss-badge-primary {
+    background-color: $tiss-blue;
+  }
+
+  &.tiss-badge-secondary {
+    background-color: $tiss-green;
+  }
+
+  &.tiss-badge-accent {
+    background-color: $tiss-dark-blue;
+  }
+
+  &.tiss-badge-success {
+    background-color: #28a745;
+  }
+
+  &.tiss-badge-danger {
+    background-color: #dc3545;
+  }
+
+  &.tiss-badge-warning {
+    background-color: #ffc107;
+    color: $tiss-gray-900;
+  }
+
+  &.tiss-badge-info {
+    background-color: #17a2b8;
+  }
+} 

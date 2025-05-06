@@ -1,0 +1,129 @@
+@import 'variables';
+
+// Modal Backdrop
+.tiss-modal-backdrop {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba($tiss-black, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  opacity: 0;
+  visibility: hidden;
+  transition: $transition-base;
+
+  &.tiss-modal-show {
+    opacity: 1;
+    visibility: visible;
+  }
+}
+
+// Modal Container
+.tiss-modal {
+  background-color: $tiss-white;
+  border-radius: $border-radius-lg;
+  box-shadow: 0 4px 6px rgba($tiss-black, 0.1);
+  width: 90%;
+  max-width: 500px;
+  max-height: 90vh;
+  overflow-y: auto;
+  position: relative;
+  transform: translateY(-20px);
+  transition: $transition-base;
+
+  .tiss-modal-show & {
+    transform: translateY(0);
+  }
+}
+
+// Modal Header
+.tiss-modal-header {
+  padding: $spacing-md;
+  border-bottom: 1px solid $tiss-gray-200;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.tiss-modal-title {
+  margin: 0;
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: $tiss-gray-900;
+}
+
+.tiss-modal-close {
+  background: none;
+  border: none;
+  padding: $spacing-xs;
+  cursor: pointer;
+  color: $tiss-gray-500;
+  transition: $transition-base;
+
+  &:hover {
+    color: $tiss-gray-900;
+  }
+}
+
+// Modal Body
+.tiss-modal-body {
+  padding: $spacing-md;
+}
+
+// Modal Footer
+.tiss-modal-footer {
+  padding: $spacing-md;
+  border-top: 1px solid $tiss-gray-200;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: $spacing-sm;
+}
+
+// Modal Sizes
+.tiss-modal-sm {
+  max-width: 300px;
+}
+
+.tiss-modal-lg {
+  max-width: 800px;
+}
+
+.tiss-modal-xl {
+  max-width: 1140px;
+}
+
+// Modal Animations
+@keyframes tiss-modal-fade-in {
+  from {
+    opacity: 0;
+    transform: translateY(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes tiss-modal-fade-out {
+  from {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  to {
+    opacity: 0;
+    transform: translateY(-20px);
+  }
+}
+
+.tiss-modal-animate {
+  animation: tiss-modal-fade-in 0.3s ease-out;
+}
+
+.tiss-modal-animate-out {
+  animation: tiss-modal-fade-out 0.3s ease-in;
+} 
