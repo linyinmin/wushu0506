@@ -418,92 +418,25 @@ function onResults(results) {
     ctx.clearRect(0, 0, canvas.width, canvas.height);
     
     // 繪製影像
-    if (isFullscreen) {
-        // 全螢幕模式下，確保影像填滿畫布
-        const scale = Math.min(canvas.width / results.image.width, canvas.height / results.image.height);
-        const x = (canvas.width - results.image.width * scale) / 2;
-        const y = (canvas.height - results.image.height * scale) / 2;
-        ctx.drawImage(results.image, x, y, results.image.width * scale, results.image.height * scale);
-    } else {
-        // 正常模式下，直接繪製影像
-        ctx.drawImage(results.image, 0, 0, canvas.width, canvas.height);
-    }
+    ctx.drawImage(results.image, 0, 0, canvas.width, canvas.height);
     
     // 繪製骨架連接線
     if (showConnectors) {
-        if (isFullscreen) {
-            // 全螢幕模式下，調整骨架點的位置
-            const scale = Math.min(canvas.width / results.image.width, canvas.height / results.image.height);
-            const xOffset = (canvas.width - results.image.width * scale) / 2;
-            const yOffset = (canvas.height - results.image.height * scale) / 2;
-            
-            ctx.strokeStyle = '#00FF00';
-            ctx.lineWidth = 2;
-            ctx.lineCap = 'round';
-            ctx.lineJoin = 'round';
-            
-            for (const [i, j] of POSE_CONNECTIONS) {
-                const start = results.poseLandmarks[i];
-                const end = results.poseLandmarks[j];
-                
-                if (start && end && start.visibility > 0.5 && end.visibility > 0.5) {
-                    ctx.beginPath();
-                    ctx.moveTo(
-                        start.x * results.image.width * scale + xOffset,
-                        start.y * results.image.height * scale + yOffset
-                    );
-                    ctx.lineTo(
-                        end.x * results.image.width * scale + xOffset,
-                        end.y * results.image.height * scale + yOffset
-                    );
-                    ctx.stroke();
-                }
-            }
-        } else {
-            drawConnectors(ctx, results.poseLandmarks, POSE_CONNECTIONS, 
-                {color: '#00FF00', lineWidth: 2});
-        }
+        drawConnectors(ctx, results.poseLandmarks, POSE_CONNECTIONS, 
+            {color: '#00FF00', lineWidth: 2});
     }
     
     // 繪製關鍵點
     if (showLandmarks) {
-        if (isFullscreen) {
-            // 全螢幕模式下，調整關鍵點的位置
-            const scale = Math.min(canvas.width / results.image.width, canvas.height / results.image.height);
-            const xOffset = (canvas.width - results.image.width * scale) / 2;
-            const yOffset = (canvas.height - results.image.height * scale) / 2;
-            
-            ctx.fillStyle = '#FF0000';
-            ctx.strokeStyle = '#FF0000';
-            ctx.lineWidth = 1;
-            
-            for (const landmark of results.poseLandmarks) {
-                if (landmark.visibility > 0.5) {
-                    const x = landmark.x * results.image.width * scale + xOffset;
-                    const y = landmark.y * results.image.height * scale + yOffset;
-                    
-                    // 繪製圓形
-                    ctx.beginPath();
-                    ctx.arc(x, y, 3, 0, 2 * Math.PI);
-                    ctx.fill();
-                    
-                    // 繪製邊框
-                    ctx.beginPath();
-                    ctx.arc(x, y, 3, 0, 2 * Math.PI);
-                    ctx.stroke();
-                }
-            }
-        } else {
-            drawLandmarks(ctx, results.poseLandmarks, 
-                {color: '#FF0000', lineWidth: 1, radius: 3});
-        }
+        drawLandmarks(ctx, results.poseLandmarks, 
+            {color: '#FF0000', lineWidth: 1, radius: 3});
     }
     
     // 更新視角判斷
     viewMode = estimateViewAngle(results.poseLandmarks);
     
     // 更新動作分析
-    if (viewMode !== 'side') {  // 側面拍攝時不進行旋轉分析
+    if (viewMode !== 'side') {
         actionTracker.updateRotation(results.poseLandmarks);
     }
     actionTracker.updateJumpHeight(results.poseLandmarks);
@@ -1123,13 +1056,13 @@ function updateVideoInfo(filename) {
 
 // 影片列表
 const videoFiles = [
-    './Video/V1.mp4',
-    './Video/V2.mp4',
-    './Video/V3.mp4',
-    './Video/V4.mp4',
-    './Video/V5.mp4',
-    './Video/V6.mp4',
-    './Video/V7.mp4'
+    'https://raw.githubusercontent.com/linyinmin/wushu0506/main/video/V1.mp4',
+    'https://raw.githubusercontent.com/linyinmin/wushu0506/main/video/V2.mp4',
+    'https://raw.githubusercontent.com/linyinmin/wushu0506/main/video/V3.mp4',
+    'https://raw.githubusercontent.com/linyinmin/wushu0506/main/video/V4.mp4',
+    'https://raw.githubusercontent.com/linyinmin/wushu0506/main/video/V5.mp4',
+    'https://raw.githubusercontent.com/linyinmin/wushu0506/main/video/V6.mp4',
+    'https://raw.githubusercontent.com/linyinmin/wushu0506/main/video/V7.mp4'
 ];
 
 // 修改影片載入函數
@@ -1138,45 +1071,76 @@ async function loadVideo(videoPath) {
         console.log('開始載入影片:', videoPath);
         const video = document.getElementById('video');
         
-        // 直接設置影片來源
-        video.src = videoPath;
+        // 重置分析狀態
+        resetAnalysis();
+        
+        // 設置跨域屬性
+        video.crossOrigin = 'anonymous';
+        
+        // 使用 fetch 載入影片
+        const response = await fetch(videoPath);
+        if (!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status}`);
+        }
+        
+        // 創建 blob URL
+        const blob = await response.blob();
+        const blobUrl = URL.createObjectURL(blob);
+        
+        // 設置影片來源
+        video.src = blobUrl;
         
         // 更新影片資訊
         updateVideoInfo(videoPath.split('/').pop());
         
-        video.onloadedmetadata = () => {
-            console.log('影片元數據已載入');
+        // 等待影片載入完成
+        await new Promise((resolve, reject) => {
+            video.onloadedmetadata = () => {
+                console.log('影片元數據已載入');
+                
+                const container = document.querySelector('.canvas-container');
+                const containerWidth = container.clientWidth;
+                const containerHeight = container.clientHeight;
+                
+                canvas.width = containerWidth;
+                canvas.height = containerHeight;
+                
+                video.style.width = '100%';
+                video.style.height = '100%';
+                canvas.style.width = '100%';
+                canvas.style.height = '100%';
+                
+                // 初始化 MediaPipe
+                initializePose();
+                
+                // 設置影片事件監聽器
+                video.addEventListener('seeked', () => {
+                    if (poseResults) {
+                        onResults(poseResults);
+                    }
+                });
+                
+                video.addEventListener('timeupdate', () => {
+                    if (poseResults) {
+                        onResults(poseResults);
+                    }
+                });
+                
+                resolve();
+            };
             
-            // 設置畫布大小與影片相同
-            const container = document.querySelector('.canvas-container');
-            const containerWidth = container.clientWidth;
-            const containerHeight = container.clientHeight;
-            
-            canvas.width = containerWidth;
-            canvas.height = containerHeight;
-            
-            // 設置影片和畫布的顯示大小
-            video.style.width = '100%';
-            video.style.height = '100%';
-            canvas.style.width = '100%';
-            canvas.style.height = '100%';
-            
-            // 初始化 MediaPipe
-            initializePose();
-            
-            // 添加 seeked 事件監聽器
-            video.addEventListener('seeked', () => {
-                // 當影片跳轉完成時，更新骨架顯示
-                if (poseResults) {
-                    onResults(poseResults);
-                }
-            });
-        };
+            video.onerror = (error) => {
+                console.error('影片載入錯誤:', error);
+                showError('影片載入失敗，請檢查檔案路徑或網路連線');
+                reject(error);
+            };
+        });
         
-        video.onerror = (error) => {
-            console.error('影片載入錯誤:', error);
-            showError('影片載入失敗，請檢查檔案路徑');
-        };
+        // 開始分析第一幀
+        video.pause();
+        video.currentTime = 0;
+        await pose.send({image: video});
+        
     } catch (error) {
         console.error('載入影片時發生錯誤:', error);
         showError(`載入影片時發生錯誤: ${error.message}`);
@@ -1245,126 +1209,49 @@ function initializeFrameControls() {
     const nextFrameBtn = document.getElementById('nextFrameBtn');
     
     // 前一幀按鈕事件
-    prevFrameBtn.addEventListener('mousedown', function() {
-        isFrameStepping = true;
-        stepFrames('backward');
-    });
-    
-    prevFrameBtn.addEventListener('mouseup', function() {
-        isFrameStepping = false;
-        if (frameInterval) {
-            clearInterval(frameInterval);
-            frameInterval = null;
-        }
-    });
-    
-    prevFrameBtn.addEventListener('mouseleave', function() {
-        isFrameStepping = false;
-        if (frameInterval) {
-            clearInterval(frameInterval);
-            frameInterval = null;
+    prevFrameBtn.addEventListener('click', function() {
+        video.pause();
+        video.currentTime = Math.max(0, video.currentTime - frameStepSize);
+        updateTimeDisplay();
+        // 立即更新骨架顯示
+        if (poseResults) {
+            onResults(poseResults);
         }
     });
     
     // 下一幀按鈕事件
-    nextFrameBtn.addEventListener('mousedown', function() {
-        isFrameStepping = true;
-        stepFrames('forward');
-    });
-    
-    nextFrameBtn.addEventListener('mouseup', function() {
-        isFrameStepping = false;
-        if (frameInterval) {
-            clearInterval(frameInterval);
-            frameInterval = null;
-        }
-    });
-    
-    nextFrameBtn.addEventListener('mouseleave', function() {
-        isFrameStepping = false;
-        if (frameInterval) {
-            clearInterval(frameInterval);
-            frameInterval = null;
+    nextFrameBtn.addEventListener('click', function() {
+        video.pause();
+        video.currentTime = Math.min(video.duration, video.currentTime + frameStepSize);
+        updateTimeDisplay();
+        // 立即更新骨架顯示
+        if (poseResults) {
+            onResults(poseResults);
         }
     });
     
     // 觸控設備支援
     prevFrameBtn.addEventListener('touchstart', function(e) {
         e.preventDefault();
-        isFrameStepping = true;
-        stepFrames('backward');
-    });
-    
-    prevFrameBtn.addEventListener('touchend', function() {
-        isFrameStepping = false;
-        if (frameInterval) {
-            clearInterval(frameInterval);
-            frameInterval = null;
+        video.pause();
+        video.currentTime = Math.max(0, video.currentTime - frameStepSize);
+        updateTimeDisplay();
+        // 立即更新骨架顯示
+        if (poseResults) {
+            onResults(poseResults);
         }
     });
     
     nextFrameBtn.addEventListener('touchstart', function(e) {
         e.preventDefault();
-        isFrameStepping = true;
-        stepFrames('forward');
-    });
-    
-    nextFrameBtn.addEventListener('touchend', function() {
-        isFrameStepping = false;
-        if (frameInterval) {
-            clearInterval(frameInterval);
-            frameInterval = null;
+        video.pause();
+        video.currentTime = Math.min(video.duration, video.currentTime + frameStepSize);
+        updateTimeDisplay();
+        // 立即更新骨架顯示
+        if (poseResults) {
+            onResults(poseResults);
         }
     });
-}
-
-// 幀步進函數
-function stepFrames(direction) {
-    const video = document.getElementById('video');
-    
-    // 暫停影片
-    video.pause();
-    
-    // 單次步進
-    if (direction === 'forward') {
-        video.currentTime = Math.min(video.duration, video.currentTime + frameStepSize);
-    } else {
-        video.currentTime = Math.max(0, video.currentTime - frameStepSize);
-    }
-    
-    // 立即更新骨架顯示
-    if (poseResults) {
-        onResults(poseResults);
-    }
-    
-    // 如果是持續按住，設置定時器
-    if (isFrameStepping && !frameInterval) {
-        frameInterval = setInterval(() => {
-            if (direction === 'forward') {
-                if (video.currentTime < video.duration) {
-                    video.currentTime = Math.min(video.duration, video.currentTime + frameStepSize);
-                    // 更新骨架顯示
-                    if (poseResults) {
-                        onResults(poseResults);
-                    }
-                } else {
-                    clearInterval(frameInterval);
-                    frameInterval = null;
-                }
-            } else {
-                if (video.currentTime > 0) {
-                    video.currentTime = Math.max(0, video.currentTime - frameStepSize);
-                    // 更新骨架顯示
-                    if (poseResults) {
-                        onResults(poseResults);
-                    }
-                } else {
-                    clearInterval(frameInterval);
-                    frameInterval = null;
-                }
-            }
-        }, 100); // 每 100ms 執行一次
-    }
 }
 
 // 修改時間滑桿控制
@@ -1376,22 +1263,20 @@ function initializePlaybackControls() {
     
     // 更新時間滑桿
     video.addEventListener('loadedmetadata', () => {
-        // 將滑桿的最大值設為影片時長的1000倍，以獲得更精確的控制
         const maxValue = Math.floor(video.duration * 1000);
         timeSlider.max = maxValue;
         timeSlider.value = 0;
-        timeSlider.step = 1; // 每次調整0.001秒
+        timeSlider.step = 1;
         durationDisplay.textContent = formatTime(video.duration);
     });
     
     // 時間滑桿控制
     timeSlider.addEventListener('input', () => {
-        // 將滑桿值轉換回實際秒數（除以1000）
         const time = parseFloat(timeSlider.value) / 1000;
         video.currentTime = time;
         updateTimeDisplay();
         
-        // 更新骨架顯示
+        // 立即更新骨架顯示
         if (poseResults) {
             onResults(poseResults);
         }
@@ -1400,11 +1285,10 @@ function initializePlaybackControls() {
     // 影片播放時更新滑桿和時間顯示
     video.addEventListener('timeupdate', () => {
         if (!timeSlider.dragging) {
-            // 將當前時間轉換為滑桿值（乘以1000）
             timeSlider.value = Math.floor(video.currentTime * 1000);
             updateTimeDisplay();
             
-            // 更新骨架顯示
+            // 立即更新骨架顯示
             if (poseResults) {
                 onResults(poseResults);
             }
